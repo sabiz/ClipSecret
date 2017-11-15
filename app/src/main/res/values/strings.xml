@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ClipSecret</string>
+    <string name="app_name_add">ClipSecret - Add</string>
+    <string name="app_name_clip">ClipSecret - Clip</string>
+</resources>
