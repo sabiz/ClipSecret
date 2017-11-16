@@ -2,6 +2,7 @@ package jp.sabiz.android.clipsecret.util
 
 import android.os.Handler
 import android.os.HandlerThread
+import java.util.concurrent.TimeUnit
 
 /**
  * @auther sabi
@@ -16,6 +17,10 @@ class Async{
 
     fun post(runnable: ()->Unit) {
         asyncHandler.post(runnable)
+    }
+
+    fun postDelayed(runnable: ()->Unit,sec:Long) {
+        asyncHandler.postDelayed(runnable,TimeUnit.SECONDS.toMillis(sec))
     }
 
     fun quit(){

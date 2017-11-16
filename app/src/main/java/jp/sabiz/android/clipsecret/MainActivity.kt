@@ -27,7 +27,8 @@ class MainActivity : AppCompatActivity() {
         val url = getUrlFromIntent(this.intent)
         val title = getTitleFromIntent(this.intent)
         if(url.isEmpty()){
-            finish()
+            finishAndRemoveTask()
+            return
         }
 
         setContentView(R.layout.activity_main)
@@ -56,12 +57,12 @@ class MainActivity : AppCompatActivity() {
                     toastShort(this, "Add secret!")
                 }
             })
-            finish()
+            finishAndRemoveTask()
         }
     }
 
-    override fun finish() {
-        super.finish()
+    override fun finishAndRemoveTask() {
+        super.finishAndRemoveTask()
         async.quit()
     }
 }

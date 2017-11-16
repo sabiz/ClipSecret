@@ -1,17 +1,15 @@
 package jp.sabiz.android.clipsecret.util
 
-import java.security.KeyStore
-import android.security.keystore.KeyProperties
 import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties.*
 import android.util.Base64
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.nio.charset.Charset
 import java.security.KeyPairGenerator
-import javax.crypto.Cipher
-import javax.crypto.CipherOutputStream
+import java.security.KeyStore
 import java.security.PrivateKey
-import javax.crypto.CipherInputStream
+import javax.crypto.*
 
 
 /**
@@ -20,8 +18,8 @@ import javax.crypto.CipherInputStream
  */
 
 
-val KEY_STORE_PROVIDER = "AndroidKeyStore"
-val ALGORITHM = "RSA/ECB/OAEPWithSHA-512AndMGF1Padding"
+const val KEY_STORE_PROVIDER = "AndroidKeyStore"
+const val ALGORITHM = "RSA/ECB/OAEPWithSHA-512AndMGF1Padding"
 
 fun loadKeyStore():KeyStore {
     val ks = KeyStore.getInstance(KEY_STORE_PROVIDER)
@@ -38,14 +36,13 @@ fun addKeyIfNeed(keyStore: KeyStore,alias: String){
         return
     }
 
-    val keyPairGenerator = KeyPairGenerator.getInstance(
-            KeyProperties.KEY_ALGORITHM_RSA, KEY_STORE_PROVIDER)
+    val keyPairGenerator = KeyPairGenerator.getInstance(KEY_ALGORITHM_RSA, KEY_STORE_PROVIDER)
     keyPairGenerator.initialize(
             KeyGenParameterSpec.Builder(
                     alias,
-                    KeyProperties.PURPOSE_DECRYPT)
-                    .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
-                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
+                    PURPOSE_DECRYPT)
+                    .setDigests(DIGEST_SHA256, DIGEST_SHA512)
+                    .setEncryptionPaddings(ENCRYPTION_PADDING_RSA_OAEP)
                     .build())
     keyPairGenerator.generateKeyPair()
 }
@@ -71,5 +68,4 @@ fun decrypt(keyStore: KeyStore,alias: String, encryptedText: String):String{
     outputStream.write(cipherInputStream.readBytes())
     outputStream.close()
     return outputStream.toString(Charset.defaultCharset().displayName())
-
 }
